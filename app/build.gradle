@@ -35,6 +35,9 @@ android {
     buildFeatures {
         compose true
     }
+    composeOptions {
+        kotlinCompilerExtensionVersion compose_version
+    }
 }
 
 def hiltVersion = "2.44.2"
@@ -44,6 +47,10 @@ dependencies {
     //AndroidX
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.appcompat:appcompat:1.6.0")
+    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+
+    //Material
+    implementation("com.google.android.material:material:1.8.0")
 
     // Hilt
     implementation("com.google.dagger:hilt-android:$hiltVersion")
@@ -67,7 +74,6 @@ dependencies {
     // Compose-Debug
     debugImplementation ("androidx.compose.ui:ui-tooling")
     debugImplementation ("androidx.compose.ui:ui-test-manifest")
-
 
     //Test
     testImplementation("junit:junit:4.13.2")
