@@ -8,7 +8,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.compose.ui.Modifier
-import ru.alexandrbirichevskiy.mykinopoiskfintech.presentation.PopularMovies
+import ru.alexandrbirichevskiy.mykinopoiskfintech.presentation.popular.PopularMovies
 
 @Composable
 fun Navigation(
