@@ -36,12 +36,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import coil.compose.AsyncImagePainter
-import coil.compose.rememberAsyncImagePainter
-import coil.compose.rememberImagePainter
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import ru.alexandrbirichevskiy.mykinopoiskfintech.R
 import ru.alexandrbirichevskiy.mykinopoiskfintech.presentation.NetworkError
-import ru.alexandrbirichevskiy.mykinopoiskfintech.presentation.RingLoader
 import ru.alexandrbirichevskiy.mykinopoiskfintech.presentation.RingLoaderInBox
 import ru.alexandrbirichevskiy.mykinopoiskfintech.presentation.navigation.Screens
 
