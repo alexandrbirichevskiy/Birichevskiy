@@ -1,4 +1,4 @@
-package ru.alexandrbirichevskiy.mykinopoiskfintech.presentation.popular
+package ru.alexandrbirichevskiy.mykinopoiskfintech.presentation.movieslist
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

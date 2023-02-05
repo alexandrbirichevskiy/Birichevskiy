@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
 import ru.alexandrbirichevskiy.mykinopoiskfintech.presentation.moviecard.MovieCard
-import ru.alexandrbirichevskiy.mykinopoiskfintech.presentation.popular.Movies
+import ru.alexandrbirichevskiy.mykinopoiskfintech.presentation.movieslist.Movies
 
 @Composable
 fun Navigation(
