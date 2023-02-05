@@ -2,7 +2,6 @@ package ru.alexandrbirichevskiy.mykinopoiskfintech.domain.network.api
 
 import retrofit2.Response
 import retrofit2.http.GET
-import retrofit2.http.Path
 import retrofit2.http.Query
 import ru.alexandrbirichevskiy.mykinopoiskfintech.domain.responses.PopularMoviesResponse
 
