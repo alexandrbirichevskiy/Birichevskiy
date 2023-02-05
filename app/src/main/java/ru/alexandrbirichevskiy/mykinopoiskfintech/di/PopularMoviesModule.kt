@@ -7,7 +7,7 @@ import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import ru.alexandrbirichevskiy.mykinopoiskfintech.data.repository.PopularMoviesRepository
 import ru.alexandrbirichevskiy.mykinopoiskfintech.data.repository.PopularMoviesRepositoryImpl
-import ru.alexandrbirichevskiy.mykinopoiskfintech.domain.PopularMoviesApi
+import ru.alexandrbirichevskiy.mykinopoiskfintech.domain.network.PopularMoviesApi
 import ru.alexandrbirichevskiy.mykinopoiskfintech.domain.usecases.PopularMoviesUseCase
 import ru.alexandrbirichevskiy.mykinopoiskfintech.domain.usecases.PopularMoviesUseCaseImpl
 import javax.inject.Singleton
