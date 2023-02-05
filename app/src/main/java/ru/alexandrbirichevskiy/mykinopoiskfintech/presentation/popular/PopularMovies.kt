@@ -1,9 +1,6 @@
 package ru.alexandrbirichevskiy.mykinopoiskfintech.presentation.popular
 
-import android.annotation.SuppressLint
-import android.util.Log
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -15,13 +12,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
-import androidx.compose.material.Scaffold
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CardElevation
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -32,6 +25,9 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.collectAsLazyPagingItems
+import androidx.paging.compose.items
 import coil.compose.AsyncImage
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import ru.alexandrbirichevskiy.mykinopoiskfintech.data.models.MovieModel
@@ -48,27 +44,35 @@ fun PopularMovies(
         onDispose { }
     }
 
+    val movies = viewModel.getPopularMovies().collectAsLazyPagingItems()
+
     Box(
         modifier = Modifier
             .fillMaxSize()
             .background(Color.White)
             .padding(horizontal = 16.dp)
     ) {
-        MoviesList(movies = viewModel.moviesList.value ?: mutableListOf())
+        MoviesList(movies = movies)
     }
 }
 
 @Composable
 fun MoviesList(
-    movies: List<MovieModel>
+    movies: LazyPagingItems<MovieModel>
 ) {
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
     ) {
-        items(movies) { data ->
-            MoviesListItem(data)
+        items(
+            items = movies,
+            key = { it.movieId }
+        ) { data ->
+            if (data != null) {
+                MoviesListItem(data)
+            }
             Spacer(modifier = Modifier.height(12.dp))
+
         }
     }
 }
