@@ -1,7 +1,6 @@
 package ru.alexandrbirichevskiy.mykinopoiskfintech.presentation.moviecard
 
 import androidx.activity.compose.BackHandler
-import androidx.compose.animation.VectorConverter
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -19,10 +18,12 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusRequester.Companion.createRefs
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
@@ -34,9 +35,14 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
+import coil.compose.AsyncImagePainter
+import coil.compose.rememberAsyncImagePainter
+import coil.compose.rememberImagePainter
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import ru.alexandrbirichevskiy.mykinopoiskfintech.R
 import ru.alexandrbirichevskiy.mykinopoiskfintech.presentation.NetworkError
+import ru.alexandrbirichevskiy.mykinopoiskfintech.presentation.RingLoader
+import ru.alexandrbirichevskiy.mykinopoiskfintech.presentation.RingLoaderInBox
 import ru.alexandrbirichevskiy.mykinopoiskfintech.presentation.navigation.Screens
 
 @Composable
@@ -49,6 +55,10 @@ fun MovieCard(
     val movie = viewModel.movie.value
     val code = viewModel.code.value
     val scrollState = rememberScrollState()
+
+    var ringLoaderState by remember {
+        mutableStateOf(true)
+    }
 
     val systemUiController = rememberSystemUiController()
     LaunchedEffect(key1 = viewModel.movie.value) {
@@ -70,11 +80,19 @@ fun MovieCard(
                 .verticalScroll(scrollState)
         ) {
             AsyncImage(
-                model = movie?.url,
+                model = movie.url,
                 contentDescription = null,
                 contentScale = ContentScale.FillWidth,
+                onState = {
+                    ringLoaderState = when (it) {
+                        is AsyncImagePainter.State.Loading -> true
+                        is AsyncImagePainter.State.Success -> false
+                        else -> false
+                    }
+                },
                 modifier = Modifier.fillMaxWidth()
             )
+
             Spacer(modifier = Modifier.height(20.dp))
             Column(
                 modifier = Modifier
@@ -150,5 +168,6 @@ fun MovieCard(
                 )
             }
         }
+        RingLoaderInBox(isLoading = ringLoaderState)
     }
 }
