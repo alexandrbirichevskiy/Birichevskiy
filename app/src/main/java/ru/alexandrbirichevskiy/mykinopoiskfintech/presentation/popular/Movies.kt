@@ -1,6 +1,7 @@
 package ru.alexandrbirichevskiy.mykinopoiskfintech.presentation.popular
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -25,16 +26,19 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
 import coil.compose.AsyncImage
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import ru.alexandrbirichevskiy.mykinopoiskfintech.data.models.MovieModel
+import ru.alexandrbirichevskiy.mykinopoiskfintech.presentation.navigation.Screens
 
 @Composable
-fun PopularMovies(
-    viewModel: PopularMoviesViewModel = hiltViewModel()
+fun Movies(
+    viewModel: MoviesViewModel = hiltViewModel(),
+    controller: NavHostController
 ) {
     val systemUiController = rememberSystemUiController()
     DisposableEffect(systemUiController) {
@@ -44,7 +48,7 @@ fun PopularMovies(
         onDispose { }
     }
 
-    val movies = viewModel.getPopularMovies().collectAsLazyPagingItems()
+    val movies = viewModel.getMovies().collectAsLazyPagingItems()
 
     Box(
         modifier = Modifier
@@ -52,13 +56,14 @@ fun PopularMovies(
             .background(Color.White)
             .padding(horizontal = 16.dp)
     ) {
-        MoviesList(movies = movies)
+        MoviesList(movies = movies, controller = controller)
     }
 }
 
 @Composable
 fun MoviesList(
-    movies: LazyPagingItems<MovieModel>
+    movies: LazyPagingItems<MovieModel>,
+    controller: NavHostController
 ) {
     LazyColumn(
         modifier = Modifier
@@ -69,7 +74,7 @@ fun MoviesList(
             key = { it.movieId }
         ) { data ->
             if (data != null) {
-                MoviesListItem(data)
+                MoviesListItem(data, controller)
             }
             Spacer(modifier = Modifier.height(12.dp))
 
@@ -78,11 +83,14 @@ fun MoviesList(
 }
 
 @Composable
-fun MoviesListItem(movie: MovieModel) {
+fun MoviesListItem(movie: MovieModel, controller: NavHostController) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .height(100.dp),
+            .height(100.dp)
+            .clickable {
+                controller.navigate(Screens.MovieCard.withArgs(movie.movieId.toString()))
+            },
         shape = RoundedCornerShape(15.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White),
         elevation = CardDefaults.cardElevation(defaultElevation = 20.dp)

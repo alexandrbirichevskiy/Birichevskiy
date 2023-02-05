@@ -7,11 +7,9 @@ import androidx.paging.map
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import ru.alexandrbirichevskiy.mykinopoiskfintech.data.models.MovieModel
-import ru.alexandrbirichevskiy.mykinopoiskfintech.data.models.PopularMoviesModel
-import ru.alexandrbirichevskiy.mykinopoiskfintech.domain.network.PopularMoviesApi
+import ru.alexandrbirichevskiy.mykinopoiskfintech.domain.network.api.MoviesApi
 import ru.alexandrbirichevskiy.mykinopoiskfintech.domain.network.PopularMoviesPagingSource
-import ru.alexandrbirichevskiy.mykinopoiskfintech.domain.responses.FilmResponse
-import ru.alexandrbirichevskiy.mykinopoiskfintech.extensions.toModelMapper
+import ru.alexandrbirichevskiy.mykinopoiskfintech.extensions.toMovieModel
 
 
 interface PopularMoviesRepository {
@@ -19,7 +17,7 @@ interface PopularMoviesRepository {
 }
 
 class PopularMoviesRepositoryImpl(
-    private val api: PopularMoviesApi
+    private val api: MoviesApi
 ) : PopularMoviesRepository {
 
     override fun getPopularMovies(): Flow<PagingData<MovieModel>> {
@@ -32,7 +30,7 @@ class PopularMoviesRepositoryImpl(
             }
         ).flow.map {
             it.map { data ->
-                data.toModelMapper()
+                data.toMovieModel()
             }
         }
     }

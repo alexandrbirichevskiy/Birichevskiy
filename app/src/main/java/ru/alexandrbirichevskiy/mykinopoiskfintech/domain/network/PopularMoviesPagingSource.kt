@@ -3,10 +3,11 @@ package ru.alexandrbirichevskiy.mykinopoiskfintech.domain.network
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import retrofit2.HttpException
+import ru.alexandrbirichevskiy.mykinopoiskfintech.domain.network.api.MoviesApi
 import ru.alexandrbirichevskiy.mykinopoiskfintech.domain.responses.FilmResponse
 
 class PopularMoviesPagingSource(
-    private val api: PopularMoviesApi
+    private val api: MoviesApi
 ) : PagingSource<Int, FilmResponse>() {
 
     override fun getRefreshKey(state: PagingState<Int, FilmResponse>): Int? {
