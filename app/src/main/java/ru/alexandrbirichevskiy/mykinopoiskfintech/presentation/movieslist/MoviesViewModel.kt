@@ -15,7 +15,7 @@ class MoviesViewModel @Inject constructor(
     private val moviesUseCase: MoviesUseCase
 ) : ViewModel() {
 
-    fun getMovies(): Flow<PagingData<MovieModel>> {
-        return moviesUseCase.getPopularMovies().cachedIn(viewModelScope)
+    fun getMovies(): Flow<PagingData<MovieModel>>? {
+        return moviesUseCase.getPopularMovies()?.cachedIn(viewModelScope)
     }
 }

@@ -6,13 +6,13 @@ import ru.alexandrbirichevskiy.mykinopoiskfintech.data.models.MovieModel
 import ru.alexandrbirichevskiy.mykinopoiskfintech.data.repository.PopularMoviesRepository
 
 interface MoviesUseCase {
-    fun getPopularMovies(): Flow<PagingData<MovieModel>>
+    fun getPopularMovies(): Flow<PagingData<MovieModel>>?
 }
 
 class MoviesUseCaseImpl(
     private val popularMoviesRepository: PopularMoviesRepository
 ) : MoviesUseCase {
-    override fun getPopularMovies(): Flow<PagingData<MovieModel>> {
+    override fun getPopularMovies(): Flow<PagingData<MovieModel>>? {
         return popularMoviesRepository.getPopularMovies()
     }
 }

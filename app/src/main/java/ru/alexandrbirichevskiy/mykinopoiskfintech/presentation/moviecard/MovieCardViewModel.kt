@@ -19,10 +19,14 @@ class MovieCardViewModel @Inject constructor(
     private val _movie = mutableStateOf<MovieCardModel?>(null)
     val movie = _movie.asState()
 
+    private val _code = mutableStateOf<Int?>(0)
+    val code = _code.asState()
+
     fun getMovie(moveId: Long) {
         viewModelScope.launch {
             val result = movieCardUseCase.getMovieCard(moveId)
-            _movie.value = result
+            _movie.value = result.first
+            _code.value = result.second
         }
     }
 }

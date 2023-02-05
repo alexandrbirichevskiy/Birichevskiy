@@ -33,6 +33,7 @@ import androidx.paging.compose.items
 import coil.compose.AsyncImage
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import ru.alexandrbirichevskiy.mykinopoiskfintech.data.models.MovieModel
+import ru.alexandrbirichevskiy.mykinopoiskfintech.presentation.NetworkError
 import ru.alexandrbirichevskiy.mykinopoiskfintech.presentation.navigation.Screens
 
 @Composable
@@ -48,7 +49,7 @@ fun Movies(
         onDispose { }
     }
 
-    val movies = viewModel.getMovies().collectAsLazyPagingItems()
+    val movies = viewModel.getMovies()?.collectAsLazyPagingItems()
 
     Box(
         modifier = Modifier
@@ -56,7 +57,11 @@ fun Movies(
             .background(Color.White)
             .padding(horizontal = 16.dp)
     ) {
-        MoviesList(movies = movies, controller = controller)
+        if (movies == null) {
+            NetworkError(onButtonClick = { viewModel.getMovies() }, code = null)
+        } else {
+            MoviesList(movies = movies, controller = controller)
+        }
     }
 }
 
