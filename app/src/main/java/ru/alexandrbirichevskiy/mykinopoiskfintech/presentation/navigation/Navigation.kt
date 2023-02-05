@@ -8,7 +8,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.compose.ui.Modifier
-import ru.alexandrbirichevskiy.mykinopoiskfintech.presentation.popular.PopularMovies
+import androidx.navigation.NavType
+import androidx.navigation.navArgument
+import ru.alexandrbirichevskiy.mykinopoiskfintech.presentation.moviecard.MovieCard
+import ru.alexandrbirichevskiy.mykinopoiskfintech.presentation.popular.Movies
 
 @Composable
 fun Navigation(
@@ -20,7 +23,17 @@ fun Navigation(
         modifier = Modifier.background(Color.White)
     ) {
         composable(route = Screens.PopularMovies.route) {
-            PopularMovies()
+            Movies(controller = navController)
+        }
+        composable(
+            route = Screens.MovieCard.route + "/{movieId}",
+            arguments = listOf(
+                navArgument(name = "movieId") {
+                    type = NavType.LongType
+                }
+            )
+        ) {
+            MovieCard(moveId = it.arguments!!.getLong("movieId"), controller = navController)
         }
     }
 }
