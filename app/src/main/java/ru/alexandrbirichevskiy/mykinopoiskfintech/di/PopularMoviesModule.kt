@@ -4,8 +4,10 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import retrofit2.Retrofit
 import ru.alexandrbirichevskiy.mykinopoiskfintech.data.repository.PopularMoviesRepository
 import ru.alexandrbirichevskiy.mykinopoiskfintech.data.repository.PopularMoviesRepositoryImpl
+import ru.alexandrbirichevskiy.mykinopoiskfintech.domain.PopularMoviesApi
 import ru.alexandrbirichevskiy.mykinopoiskfintech.domain.usecases.PopularMoviesUseCase
 import ru.alexandrbirichevskiy.mykinopoiskfintech.domain.usecases.PopularMoviesUseCaseImpl
 import javax.inject.Singleton
@@ -16,7 +18,15 @@ class PopularMoviesModule {
 
     @Provides
     @Singleton
-    fun providePopularMoviesRepository(): PopularMoviesRepository = PopularMoviesRepositoryImpl()
+    fun providePopularMoviesApi(
+        retrofit: Retrofit
+    ): PopularMoviesApi = retrofit.create(PopularMoviesApi::class.java)
+
+    @Provides
+    @Singleton
+    fun providePopularMoviesRepository(
+        popularMoviesApi: PopularMoviesApi
+    ): PopularMoviesRepository = PopularMoviesRepositoryImpl(popularMoviesApi)
 
     @Provides
     @Singleton
