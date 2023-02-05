@@ -7,10 +7,12 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import ru.alexandrbirichevskiy.mykinopoiskfintech.domain.network.TokenInterceptor
 import java.util.*
 import javax.inject.Singleton
 
@@ -34,10 +36,16 @@ class NetworkModule {
 
     @Provides
     @Singleton
+    fun provideTokenInterceptor(): Interceptor = TokenInterceptor()
+
+    @Provides
+    @Singleton
     fun provideOkHttpClient(
-        loggingInterceptor: HttpLoggingInterceptor
+        loggingInterceptor: HttpLoggingInterceptor,
+        tokenInterceptor: Interceptor
     ): OkHttpClient {
         return OkHttpClient.Builder()
+            .addInterceptor(tokenInterceptor)
             .addInterceptor(loggingInterceptor)
             .build()
     }

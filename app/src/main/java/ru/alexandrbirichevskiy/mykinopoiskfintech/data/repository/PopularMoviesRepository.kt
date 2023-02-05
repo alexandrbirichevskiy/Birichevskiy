@@ -1,7 +1,7 @@
 package ru.alexandrbirichevskiy.mykinopoiskfintech.data.repository
 
 import ru.alexandrbirichevskiy.mykinopoiskfintech.data.models.PopularMoviesModel
-import ru.alexandrbirichevskiy.mykinopoiskfintech.domain.PopularMoviesApi
+import ru.alexandrbirichevskiy.mykinopoiskfintech.domain.network.PopularMoviesApi
 import ru.alexandrbirichevskiy.mykinopoiskfintech.extensions.toModelMapper
 
 interface PopularMoviesRepository {
