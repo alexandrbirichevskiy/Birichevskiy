@@ -1,4 +1,4 @@
-package ru.alexandrbirichevskiy.mykinopoiskfintech.presentation.popular
+package ru.alexandrbirichevskiy.mykinopoiskfintech.presentation.movieslist
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -15,7 +15,7 @@ class MoviesViewModel @Inject constructor(
     private val moviesUseCase: MoviesUseCase
 ) : ViewModel() {
 
-    fun getMovies(): Flow<PagingData<MovieModel>> {
-        return moviesUseCase.getPopularMovies().cachedIn(viewModelScope)
+    fun getMovies(): Flow<PagingData<MovieModel>>? {
+        return moviesUseCase.getPopularMovies()?.cachedIn(viewModelScope)
     }
 }

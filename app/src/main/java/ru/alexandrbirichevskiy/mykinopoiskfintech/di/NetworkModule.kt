@@ -1,17 +1,21 @@
 package ru.alexandrbirichevskiy.mykinopoiskfintech.di
 
+import android.content.Context
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.adapters.Rfc3339DateJsonAdapter
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import ru.alexandrbirichevskiy.mykinopoiskfintech.domain.network.ConnectionState
+import ru.alexandrbirichevskiy.mykinopoiskfintech.domain.network.ConnectionStateDelegate
 import ru.alexandrbirichevskiy.mykinopoiskfintech.domain.network.TokenInterceptor
 import java.util.*
 import javax.inject.Singleton
@@ -66,4 +70,10 @@ class NetworkModule {
         retrofitBuilder: Retrofit.Builder,
         okHttpClient: OkHttpClient
     ): Retrofit = retrofitBuilder.client(okHttpClient).build()
+
+    @Provides
+    @Singleton
+    fun provideConnectionState(
+        @ApplicationContext context: Context
+    ): ConnectionState = ConnectionStateDelegate(context)
 }

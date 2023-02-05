@@ -7,6 +7,7 @@ import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import ru.alexandrbirichevskiy.mykinopoiskfintech.data.repository.MovieCardRepository
 import ru.alexandrbirichevskiy.mykinopoiskfintech.data.repository.MovieCardRepositoryImpl
+import ru.alexandrbirichevskiy.mykinopoiskfintech.domain.network.ConnectionState
 import ru.alexandrbirichevskiy.mykinopoiskfintech.domain.network.api.MovieCardApi
 import ru.alexandrbirichevskiy.mykinopoiskfintech.domain.usecases.MovieCardUseCase
 import ru.alexandrbirichevskiy.mykinopoiskfintech.domain.usecases.MovieCardUseCaseImpl
@@ -25,8 +26,9 @@ class MovieCardModule {
     @Provides
     @Singleton
     fun provideMovieCardRepository(
-        movieCardApi: MovieCardApi
-    ): MovieCardRepository = MovieCardRepositoryImpl(movieCardApi)
+        movieCardApi: MovieCardApi,
+        connectionState: ConnectionState
+    ): MovieCardRepository = MovieCardRepositoryImpl(movieCardApi, connectionState)
 
     @Provides
     @Singleton

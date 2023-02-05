@@ -36,6 +36,7 @@ import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import ru.alexandrbirichevskiy.mykinopoiskfintech.R
+import ru.alexandrbirichevskiy.mykinopoiskfintech.presentation.NetworkError
 import ru.alexandrbirichevskiy.mykinopoiskfintech.presentation.navigation.Screens
 
 @Composable
@@ -46,6 +47,7 @@ fun MovieCard(
 ) {
     viewModel.getMovie(moveId)
     val movie = viewModel.movie.value
+    val code = viewModel.code.value
     val scrollState = rememberScrollState()
 
     val systemUiController = rememberSystemUiController()
@@ -59,90 +61,94 @@ fun MovieCard(
         controller.navigate(Screens.PopularMovies.route)
     }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(scrollState)
-    ) {
-        AsyncImage(
-            model = movie?.url,
-            contentDescription = null,
-            contentScale = ContentScale.FillWidth,
-            modifier = Modifier.fillMaxWidth()
-        )
-        Spacer(modifier = Modifier.height(20.dp))
+    if (movie == null) {
+        NetworkError(onButtonClick = { viewModel.getMovie(moveId) }, code = code)
+    } else {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(horizontal = 30.dp),
-            verticalArrangement = Arrangement.Center
+                .verticalScroll(scrollState)
         ) {
-            Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxWidth()) {
-                Text(
-                    text = movie?.name.orEmpty(),
-                    color = Color.Black,
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight(600)
-                )
-            }
-            Spacer(modifier = Modifier.height(16.dp))
-            Text(
-                text = movie?.description.orEmpty(),
-                color = Color.Black.copy(alpha = 0.6f),
-                fontSize = 14.sp,
-                fontWeight = FontWeight(400)
-            )
-            Spacer(modifier = Modifier.height(15.dp))
-            Row {
-                Text(
-                    text = "Жанры: ",
-                    color = Color.Black.copy(alpha = 0.6f),
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight(500)
-                )
-                Text(
-                    text = movie?.genres?.joinToString(", ").orEmpty(),
-                    color = Color.Black.copy(alpha = 0.6f),
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight(400)
-                )
-            }
-            Spacer(modifier = Modifier.height(8.dp))
-            Row {
-                Text(
-                    text = "Страны: ",
-                    color = Color.Black.copy(alpha = 0.6f),
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight(500)
-                )
-
-                Text(
-                    text = movie?.countries?.joinToString(", ").orEmpty(),
-                    color = Color.Black.copy(alpha = 0.6f),
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight(400)
-                )
-            }
-            Spacer(modifier = Modifier.height(8.dp))
-        }
-    }
-
-    ConstraintLayout {
-        IconButton(
-            onClick = { controller.navigate(Screens.PopularMovies.route) },
-            modifier = Modifier
-                .size(24.dp)
-                .constrainAs(createRef()) {
-                    top.linkTo(parent.top, margin = 30.dp)
-                    start.linkTo(parent.start, margin = 22.dp)
-                }
-        ) {
-            Icon(
-                painter = painterResource(id = R.drawable.arrow_back),
-                modifier = Modifier.fillMaxSize(),
+            AsyncImage(
+                model = movie?.url,
                 contentDescription = null,
-                tint = colorResource(id = R.color.blue)
+                contentScale = ContentScale.FillWidth,
+                modifier = Modifier.fillMaxWidth()
             )
+            Spacer(modifier = Modifier.height(20.dp))
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(horizontal = 30.dp),
+                verticalArrangement = Arrangement.Center
+            ) {
+                Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxWidth()) {
+                    Text(
+                        text = movie?.name.orEmpty(),
+                        color = Color.Black,
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight(600)
+                    )
+                }
+                Spacer(modifier = Modifier.height(16.dp))
+                Text(
+                    text = movie?.description.orEmpty(),
+                    color = Color.Black.copy(alpha = 0.6f),
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight(400)
+                )
+                Spacer(modifier = Modifier.height(15.dp))
+                Row {
+                    Text(
+                        text = "Жанры: ",
+                        color = Color.Black.copy(alpha = 0.6f),
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight(500)
+                    )
+                    Text(
+                        text = movie?.genres?.joinToString(", ").orEmpty(),
+                        color = Color.Black.copy(alpha = 0.6f),
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight(400)
+                    )
+                }
+                Spacer(modifier = Modifier.height(8.dp))
+                Row {
+                    Text(
+                        text = "Страны: ",
+                        color = Color.Black.copy(alpha = 0.6f),
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight(500)
+                    )
+
+                    Text(
+                        text = movie?.countries?.joinToString(", ").orEmpty(),
+                        color = Color.Black.copy(alpha = 0.6f),
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight(400)
+                    )
+                }
+                Spacer(modifier = Modifier.height(8.dp))
+            }
+        }
+
+        ConstraintLayout {
+            IconButton(
+                onClick = { controller.navigate(Screens.PopularMovies.route) },
+                modifier = Modifier
+                    .size(24.dp)
+                    .constrainAs(createRef()) {
+                        top.linkTo(parent.top, margin = 30.dp)
+                        start.linkTo(parent.start, margin = 22.dp)
+                    }
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.arrow_back),
+                    modifier = Modifier.fillMaxSize(),
+                    contentDescription = null,
+                    tint = colorResource(id = R.color.blue)
+                )
+            }
         }
     }
 }

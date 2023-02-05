@@ -7,6 +7,7 @@ import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import ru.alexandrbirichevskiy.mykinopoiskfintech.data.repository.PopularMoviesRepository
 import ru.alexandrbirichevskiy.mykinopoiskfintech.data.repository.PopularMoviesRepositoryImpl
+import ru.alexandrbirichevskiy.mykinopoiskfintech.domain.network.ConnectionState
 import ru.alexandrbirichevskiy.mykinopoiskfintech.domain.network.api.MoviesApi
 import ru.alexandrbirichevskiy.mykinopoiskfintech.domain.usecases.MoviesUseCase
 import ru.alexandrbirichevskiy.mykinopoiskfintech.domain.usecases.MoviesUseCaseImpl
@@ -25,8 +26,9 @@ class MoviesModule {
     @Provides
     @Singleton
     fun provideMoviesRepository(
-        moviesApi: MoviesApi
-    ): PopularMoviesRepository = PopularMoviesRepositoryImpl(moviesApi)
+        moviesApi: MoviesApi,
+        connectionState: ConnectionState
+    ): PopularMoviesRepository = PopularMoviesRepositoryImpl(moviesApi, connectionState)
 
     @Provides
     @Singleton
